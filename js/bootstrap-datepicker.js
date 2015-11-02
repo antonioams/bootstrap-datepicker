@@ -1240,12 +1240,21 @@
 				while (this.dates.length > this.o.multidate)
 					this.dates.remove(0);
 		},
-
+    _setsmartMonthSelect: function(date){
+      this.dates.clear();
+      this.dates.push(date);
+      this.dates.push(new Date(date.getUTCFullYear(), date.getUTCMonth() + 1, 0));
+    },
 		_setDate: function(date, which){
-			if (!which || which === 'date')
-				this._toggle_multidate(date && new Date(date));
-			if (!which || which  === 'view')
-				this.viewDate = date && new Date(date);
+      if (this.o.smartMonthSelect){
+        this._setsmartMonthSelect(date && new Date(date));
+      }
+      else {
+        if (!which || which === 'date')
+  				this._toggle_multidate(date && new Date(date));
+  			if (!which || which  === 'view')
+  				this.viewDate = date && new Date(date);
+      }
 
 			this.fill();
 			this.setValue();
